@@ -20,11 +20,10 @@ func Serve(h http.Handler, host string, port int) {
 	}
 
 	go func() {
+		log.Println("serve: " + addr)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
-		log.Println("serve: " + addr)
-
 	}()
 
 	q := make(chan os.Signal, 1)
