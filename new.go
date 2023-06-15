@@ -15,6 +15,9 @@ func NewApp(ms ...func(ctx *gin.Context)) *gin.Engine {
 	return app
 }
 
-func GetApp() *gin.Engine {
+func Use(ms ...gin.HandlerFunc) *gin.Engine {
+	if len(ms) != 0 {
+		app.Use(ms...)
+	}
 	return app
 }
