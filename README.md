@@ -1,2 +1,5 @@
 # gins
 
+## middleware
+
+* Cors
