@@ -14,7 +14,7 @@ func Require(methods ...string) func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		method := ctx.Request.Method
 		if _, ok := _require[method]; !ok {
-			ctx.AbortWithStatus(http.StatusNoContent)
+			ctx.AbortWithStatus(http.StatusForbidden)
 			return
 		}
 	}
