@@ -1,17 +1,18 @@
 package minix
 
-import (
-	"fmt"
-	"hash/crc32"
-	"strings"
+import "github.com/cnhgscc/gins/minix/hasher"
+
+var (
+	FlagCrc32 = 0
+	FlagMD5   = 1
 )
 
-func Hasher(tags ...string) (string, string) {
-	field := strings.Join(tags, "_")
-	crc := fmt.Sprintf("%08x", crc32.ChecksumIEEE([]byte(field)))
-	u := crc[0]
-	if !(u >= '0' && u <= '9') {
-		return tags[0], strings.ToLower(crc)[:6]
+func Hasher(flag int, tags ...string) (string, string) {
+	switch flag {
+	case FlagCrc32:
+		return hasher.Crc32Crypto(tags...)
+	case FlagMD5:
+		return hasher.MD5Crypto(tags...)
 	}
-	return tags[0], strings.ToLower(string(u-'0'+'a') + crc[1:6])
+	return "", ""
 }
