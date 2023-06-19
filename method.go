@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Require(methods ...string) func(ctx *gin.Context) {
+func Method(methods ...string) func(ctx *gin.Context) {
 	_require := map[string]bool{}
 	for _, s := range methods {
 		_require[s] = true
