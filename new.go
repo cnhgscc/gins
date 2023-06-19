@@ -4,20 +4,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Context = gin.Context
-type RouterGroup = gin.RouterGroup
-
 var app *Application
 
-type Application struct {
-	*gin.Engine
-	urlpatterns map[string]gin.HandlerFunc
+type Handler struct {
+	Method  string
+	Path    string
+	Handler gin.HandlerFunc
 }
 
 func New(ms ...func(ctx *Context)) *Application {
 	app = &Application{
 		Engine:      gin.New(),
-		urlpatterns: map[string]gin.HandlerFunc{},
+		urlpatterns: map[string]Handler{},
 	}
 
 	app.Use(gin.Recovery())
@@ -27,7 +25,11 @@ func New(ms ...func(ctx *Context)) *Application {
 	return app
 }
 
-func Register(url string, h gin.HandlerFunc) *Application {
-	app.urlpatterns[url] = h
+func Register(method string, url string, h gin.HandlerFunc) *Application {
+	app.urlpatterns[url] = Handler{
+		Method:  method,
+		Path:    url,
+		Handler: h,
+	}
 	return app
 }
