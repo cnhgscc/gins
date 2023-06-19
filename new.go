@@ -4,12 +4,14 @@ import "github.com/gin-gonic/gin"
 
 var app *Application
 
+type Context = gin.Context
+
 type Application struct {
 	*gin.Engine
 	urlpatterns map[string]gin.HandlerFunc
 }
 
-func New(ms ...func(ctx *gin.Context)) *Application {
+func New(ms ...func(ctx *Context)) *Application {
 	app = &Application{
 		Engine:      gin.New(),
 		urlpatterns: map[string]gin.HandlerFunc{},
