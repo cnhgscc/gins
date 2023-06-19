@@ -11,7 +11,7 @@ func Hasher(tags ...string) (string, string) {
 	crc := fmt.Sprintf("%08x", crc32.ChecksumIEEE([]byte(field)))
 	u := crc[0]
 	if !(u >= '0' && u <= '9') {
-		return field, strings.ToLower(crc)[:6]
+		return tags[0], strings.ToLower(crc)[:6]
 	}
-	return field, strings.ToLower(string(u-'0'+'a') + crc[1:6])
+	return tags[0], strings.ToLower(string(u-'0'+'a') + crc[1:6])
 }
