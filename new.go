@@ -5,6 +5,7 @@ import "github.com/gin-gonic/gin"
 var app *Application
 
 type Context = gin.Context
+type RouterGroup = gin.RouterGroup
 
 type Application struct {
 	*gin.Engine
@@ -17,9 +18,7 @@ func New(ms ...func(ctx *Context)) *Application {
 		urlpatterns: map[string]gin.HandlerFunc{},
 	}
 
-	if len(ms) == 0 {
-		ms = append(ms, gin.Recovery())
-	}
+	app.Use(gin.Recovery())
 	for _, m := range ms {
 		app.Use(m)
 	}
