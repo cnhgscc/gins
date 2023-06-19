@@ -1,11 +1,13 @@
 package gins
 
-import "github.com/gin-gonic/gin"
-
-var app *Application
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type Context = gin.Context
 type RouterGroup = gin.RouterGroup
+
+var app *Application
 
 type Application struct {
 	*gin.Engine
@@ -25,7 +27,7 @@ func New(ms ...func(ctx *Context)) *Application {
 	return app
 }
 
-func (app *Application) Register(url string, h gin.HandlerFunc) *Application {
+func Register(url string, h gin.HandlerFunc) *Application {
 	app.urlpatterns[url] = h
 	return app
 }
