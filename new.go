@@ -2,10 +2,19 @@ package gins
 
 import "github.com/gin-gonic/gin"
 
-var app *gin.Engine
+var app *Application
 
-func NewApp(ms ...func(ctx *gin.Context)) *gin.Engine {
-	app = gin.New()
+type Application struct {
+	*gin.Engine
+	urlpatterns map[string]gin.HandlerFunc
+}
+
+func New(ms ...func(ctx *gin.Context)) *Application {
+	app = &Application{
+		Engine:      gin.New(),
+		urlpatterns: map[string]gin.HandlerFunc{},
+	}
+
 	if len(ms) == 0 {
 		ms = append(ms, gin.Recovery())
 	}
@@ -15,9 +24,7 @@ func NewApp(ms ...func(ctx *gin.Context)) *gin.Engine {
 	return app
 }
 
-func Use(ms ...gin.HandlerFunc) *gin.Engine {
-	if len(ms) != 0 {
-		app.Use(ms...)
-	}
+func (app *Application) Register(url string, h gin.HandlerFunc) *Application {
+	app.urlpatterns[url] = h
 	return app
 }
